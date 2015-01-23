@@ -1,0 +1,11 @@
+{
+    "applications": {
+        "Rural2G": {
+            "applicationId": "iNUUU9wcOd9ICQbsLuIbxEuymmB8YltZERMjjAQS", 
+            "masterKey": "qpqIgBuuFFWtiF5v31VpsXEzn0ZtcnsbpuTrFoVR"
+        }, 
+        "_default": {
+            "link": "Rural2G"
+        }
+    }
+}
