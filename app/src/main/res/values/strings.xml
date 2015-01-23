@@ -23,5 +23,6 @@
     <string name="menu_logout_label">Logout</string>
     <string name="title_activity_edit_friends">EditFriendsActivity</string>
     <string name="error_title">We\\\'re sorry!</string>
+    <string name="search_hint">Search content</string>
 
 </resources>
