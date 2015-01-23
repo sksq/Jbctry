@@ -58,17 +58,17 @@ public class EnterFragment extends ListFragment {
 
         queryTags = ParseQuery.getQuery("tags");
         // Query for new results from the network.
-        queryTags.findInBackground(new FindCallback<ParseObject>() {
-            public void done(final List<ParseObject> scores, ParseException e) {
-                // Remove the previously cached results.
-                ParseObject.unpinAllInBackground("", new DeleteCallback() {
-                    public void done(ParseException e) {
-                        // Cache the new results.
-                        ParseObject.pinAllInBackground("", scores);
-                    }
-                });
-            }
-        });
+//        queryTags.findInBackground(new FindCallback<ParseObject>() {
+//            public void done(final List<ParseObject> scores, ParseException e) {
+//                // Remove the previously cached results.
+//                ParseObject.unpinAllInBackground("", new DeleteCallback() {
+//                    public void done(ParseException e) {
+//                        // Cache the new results.
+//                        ParseObject.pinAllInBackground("", scores);
+//                    }
+//                });
+//            }
+//        });
 
         queryTags.whereEqualTo("categoryCode", 1);
 //        queryTags.fromLocalDatastore();
