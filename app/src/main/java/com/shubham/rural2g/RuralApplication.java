@@ -7,9 +7,10 @@ import android.support.v7.app.ActionBarActivity;
 
 import com.parse.Parse;
 import com.parse.ParseObject;
+import com.parse.PushService;
 
 /**
- * Created by Shubham on 20-01-2015.
+ * Updated by Ashish on 23-01-2015.
  */
 public class RuralApplication extends Application{
 
@@ -20,5 +21,6 @@ public class RuralApplication extends Application{
         Parse.enableLocalDatastore(this);
 
         Parse.initialize(this, "iNUUU9wcOd9ICQbsLuIbxEuymmB8YltZERMjjAQS", "28tSzrXYN27MpIPg0J9GaL9pA2SglrqROdOiU3lr");
+        PushService.setDefaultPushCallback(this, MainActivity.class);
     }
 }
