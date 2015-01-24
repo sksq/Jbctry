@@ -35,7 +35,16 @@ public class EnterFragment extends ListFragment {
 
     String[] allTagsArray;
 
+//<<<<<<< HEAD
     final String LABEL = "label";
+//=======
+    String query; //@Gopal
+
+    public EnterFragment(String query) {
+        this.query = query;
+        Log.d("TAG", "Inside EnterFragment Constructor and query is :"+ query + ".");
+    }
+//>>>>>>> 8dfced9f4bbc30fe030077d4b62d30550f126a1f
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -88,10 +97,16 @@ public class EnterFragment extends ListFragment {
                         i++;
                     }
 
+
+                    KnuthMorrisPratt test = new KnuthMorrisPratt(query);
+                    ArrayList<String> result = test.search(allTagsArray);
+                    String[] allTagsArrayDisplay = new String[result.size()];
+                    allTagsArrayDisplay = result.toArray(allTagsArrayDisplay);
+
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                             getListView().getContext(),
                             android.R.layout.simple_list_item_multiple_choice,
-                            allTagsArray);
+                            allTagsArrayDisplay);
                     setListAdapter(adapter);
 
                     addCheckMarks();
