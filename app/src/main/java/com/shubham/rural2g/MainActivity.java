@@ -3,6 +3,7 @@ package com.shubham.rural2g;
 import java.util.HashMap;
 import java.util.Locale;
 
+import android.app.SearchManager;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -46,11 +47,20 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
+    String query = ""; //To save search string @Gopal
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        Intent intent = getIntent();
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            query = intent.getStringExtra(SearchManager.QUERY);
+            // Do work using string
+            Log.d("TAG", query);
+        }
 
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser == null) {
@@ -66,7 +76,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(this,getSupportFragmentManager());
+        mSectionsPagerAdapter = new SectionsPagerAdapter(this,getSupportFragmentManager(), query);
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -93,7 +103,12 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+
+        // handleIntent(getIntent());    //@Gopal for search implementation
+
     }
+
+
 
     private void navigateToLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
@@ -115,8 +130,15 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int itemId = item.getItemId();
+        Log.d("TAG", "In onOptionsItemSelected");
 
+        //If user clicks search button on action bar following code is executed
+        //which opens the search dialog at the top   @Gopal
+        if(item.getItemId() == R.id.action_search) {
+            onSearchRequested();
+        }
+
+        int itemId = item.getItemId();
         if (itemId == R.id.action_logout) {
             ParseUser.logOut();
             navigateToLogin();
