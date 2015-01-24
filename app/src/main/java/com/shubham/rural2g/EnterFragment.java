@@ -9,22 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import org.json.JSONArray;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,6 +34,8 @@ public class EnterFragment extends ListFragment {
     ParseUser userObject;
 
     String[] allTagsArray;
+
+    final String LABEL = "label";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,14 +67,21 @@ public class EnterFragment extends ListFragment {
 //        });
 
         queryTags.whereEqualTo("categoryCode", 1);
-//        queryTags.fromLocalDatastore();
+        queryTags.fromLocalDatastore();
         queryTags.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> tags, ParseException e) {
+            public void done(final List<ParseObject> tags, ParseException e) {
+
                 if (e == null) {
+                    ParseObject.unpinAllInBackground(LABEL, new DeleteCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            ParseObject.pinAllInBackground(LABEL, tags);
+                        }
+                    });
+
                     mTags = tags;
                     allTagsArray = new String[mTags.size()];
 
-//                    Log.e(TAG, tags.size()+"");
                     int i = 0;
                     for (ParseObject tag : mTags) {
                         allTagsArray[i] = tag.getString("tagName");
@@ -92,9 +94,9 @@ public class EnterFragment extends ListFragment {
                             allTagsArray);
                     setListAdapter(adapter);
 
-                    addCheckmarks();
+                    addCheckMarks();
 
-                } else {
+                } else{
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(getListView().getContext());
                     builder.setMessage(e.getMessage())
@@ -115,23 +117,25 @@ public class EnterFragment extends ListFragment {
 
         if (getListView().isItemChecked(position)) {
 
-//            Log.d("TAG","eldh "+position);
+            queryTags.fromLocalDatastore();
             userObject.addAllUnique("Tags", Arrays.asList(allTagsArray[position]));
-            userObject.saveInBackground();
+            userObject.pinInBackground();
+
         } else {
 
+            queryTags.fromLocalDatastore();
             ArrayList<String> testStringArrayList = (ArrayList<String>) userObject.get("Tags");
             testStringArrayList.remove(allTagsArray[position]);
             userObject.put("Tags", testStringArrayList);
-            userObject.saveInBackground();
+            userObject.pinInBackground();
 
         }
     }
 
-    private void addCheckmarks() {
+    private void addCheckMarks() {
 
+        queryTags.fromLocalDatastore();
         ArrayList<String> testStringArrayList = (ArrayList<String>) userObject.get("Tags");
-        Log.d("qw", "TAG");
 
         ParseObject arr = userObject.getParseObject("Tags");
 
