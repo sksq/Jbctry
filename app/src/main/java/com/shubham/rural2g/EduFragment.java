@@ -33,6 +33,13 @@ public class EduFragment extends ListFragment {
 
     String[] allTagsArray;
 
+    String query; //@Gopal
+
+    public EduFragment(String query) {
+        this.query = query;
+        Log.d("TAG", "Inside EduFragment Constructor"+ query);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -63,10 +70,15 @@ public class EduFragment extends ListFragment {
                         i++;
                     }
 
+                    KnuthMorrisPratt test = new KnuthMorrisPratt(query);
+                    ArrayList<String> result = test.search(allTagsArray);
+                    String[] allTagsArrayDisplay = new String[result.size()];
+                    allTagsArrayDisplay = result.toArray(allTagsArrayDisplay);
+
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                             getListView().getContext(),
                             android.R.layout.simple_list_item_multiple_choice,
-                            allTagsArray);
+                            allTagsArrayDisplay);
                     setListAdapter(adapter);
 
                     addCheckmarks();
