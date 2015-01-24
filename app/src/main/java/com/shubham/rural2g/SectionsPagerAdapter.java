@@ -18,9 +18,11 @@ import java.util.Locale;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     protected Context mContext;
+    String query;
 
-    public SectionsPagerAdapter(Context context, FragmentManager fm) {
+    public SectionsPagerAdapter(Context context, FragmentManager fm, String query1) {
         super(fm);
+        query = query1;
         mContext = context;
     }
 
@@ -30,13 +32,13 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         // Return a PlaceholderFragment (defined as a static inner class below).
         switch(position) {
             case 0:
-                return new EduFragment();
+                return new EduFragment(query);
             case 1:
-                return new EnterFragment();
+                return new EnterFragment(query);
             case 2:
-                return new NewsFragment();
+                return new NewsFragment(query);
             case 3:
-                return new WeatherFragment();
+                return new WeatherFragment(query);
         }
 
         return null;
