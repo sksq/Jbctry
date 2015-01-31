@@ -25,5 +25,9 @@
     <string name="error_title">We\\\'re sorry!</string>
     <string name="search_hint">Search content</string>
     <string name="action_search">Search</string>
+    <string name="edit_preferences">Edit Preferences</string>
+    <string name="title_activity_image_display">ImageDisplay</string>
+    <string name="title_activity_start_screen">StartScreen</string>
+    <string name="title_activity_startup_screen">StartupScreen</string>
 
 </resources>

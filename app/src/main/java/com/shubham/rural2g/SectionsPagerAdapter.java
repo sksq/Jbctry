@@ -65,4 +65,19 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         }
         return null;
     }
+
+    public int getIcon(int position) {
+        switch (position) {
+            case 0:
+                return R.drawable.edu;
+            case 1:
+                return R.drawable.enter;
+            case 2:
+                return R.drawable.news;
+            case 3:
+                return R.drawable.weather;
+        }
+
+        return R.drawable.enter;
+    }
 }

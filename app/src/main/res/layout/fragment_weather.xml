@@ -15,8 +15,20 @@
 
     <TextView
         android:id="@android:id/empty"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No new entertainment updates" />
+        android:text="Fetching data from our server."
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please wait..."
+        android:id="@+id/textView3"
+        android:layout_below="@android:id/empty"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp" />
 
 </RelativeLayout>

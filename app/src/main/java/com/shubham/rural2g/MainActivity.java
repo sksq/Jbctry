@@ -1,8 +1,11 @@
 package com.shubham.rural2g;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Random;
 
+import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -25,6 +28,7 @@ import android.widget.TextView;
 import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
 import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 import org.apache.http.ParseException;
 
@@ -41,7 +45,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
      * may be best to switch to a
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
-    SectionsPagerAdapter mSectionsPagerAdapter;
+    SectionsContentPagerAdapter mSectionsPagerAdapter;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -62,13 +66,40 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             Log.d("TAG", query);
         }
 
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        if (currentUser == null) {
-            navigateToLogin();
-        }
-        else {
-            Log.i(TAG, currentUser.getUsername());
-        }
+//        ParseUser currentUser = ParseUser.getCurrentUser();
+//        if (currentUser == null) {
+//            Random random = new Random();
+//            ParseUser newUser = new ParseUser();
+//            newUser.setUsername(random.nextInt(12) + "");
+//            newUser.setPassword("LOL");
+////            newUser.setEmail(email);
+//            ArrayList<String> arr = new ArrayList<String>(0);
+//            newUser.put("Tags", arr);
+//
+//            newUser.signUpInBackground(new SignUpCallback() {
+//                @Override
+//                public void done(com.parse.ParseException e) {
+////                    setProgressBarIndeterminateVisibility(false);
+//
+//                    if (e == null) {
+//                        // Success!
+//                        Intent intent = new Intent(MainActivity.this, MainActivity.class);
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                        startActivity(intent);
+//                    } else {
+//                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+//                        builder.setMessage(e.getMessage())
+//                                .setTitle(R.string.signup_error_title)
+//                                .setPositiveButton(android.R.string.ok, null);
+//                        AlertDialog dialog = builder.create();
+//                        dialog.show();
+//                    }
+//                }
+//            });
+//        } else {
+//            Log.i(TAG, currentUser.getUsername());
+//        }
 
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();
@@ -76,7 +107,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(this,getSupportFragmentManager(), query);
+        mSectionsPagerAdapter = new SectionsContentPagerAdapter(this, getSupportFragmentManager(), query);
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -103,20 +134,14 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
-
-        // handleIntent(getIntent());    //@Gopal for search implementation
-
     }
 
-
-
-    private void navigateToLogin() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-    }
-
+//    private void navigateToLogin() {
+//        Intent intent = new Intent(this, com.shubham.rural2g.LoginActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        startActivity(intent);
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -134,15 +159,20 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         //If user clicks search button on action bar following code is executed
         //which opens the search dialog at the top   @Gopal
-        if(item.getItemId() == R.id.action_search) {
+/*        if(item.getItemId() == R.id.action_search) {
             onSearchRequested();
+        }*/
+
+        if (item.getItemId() == R.id.edit_preferences) {
+            Intent preferencesIntent = new Intent(MainActivity.this, EditPreferences.class);
+            startActivity(preferencesIntent);
         }
 
-        int itemId = item.getItemId();
-        if (itemId == R.id.action_logout) {
-            ParseUser.logOut();
-            navigateToLogin();
-        }
+//        int itemId = item.getItemId();
+//        if (itemId == R.id.action_logout) {
+//            ParseUser.logOut();
+//            navigateToLogin();
+//        }
 
         return super.onOptionsItemSelected(item);
     }
